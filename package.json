@@ -1,0 +1,89 @@
+{
+	"name": "json-excel",
+	"version": "0.0.0",
+	"description": "Create a pretty Excel table from JSON data with a very simple API",
+	"license": "MIT",
+	"repository": "papb/json-excel",
+	"author": {
+		"name": "Pedro Augusto de Paula Barbosa",
+		"email": "papb1996@gmail.com"
+	},
+	"keywords": [
+		"excel",
+		"json",
+		"table",
+		"json to excel",
+		"json-to-excel",
+		"convert",
+		"xlsx",
+		"generate",
+		"sheet",
+		"worksheet",
+		"workbook",
+		"tabular",
+		"data",
+		"xls"
+	],
+	"engines": {
+		"node": ">=10"
+	},
+	"scripts": {
+		"build": "del-cli dist && tsc",
+		"release": "npm run build && np --no-2fa && npm pack && echo Please put the generated .tgz as a release asset on GitHub",
+		"test": "npm run build && xo && ava",
+		"lint": "tsc --noEmit && xo",
+		"ava": "npm run build && ava"
+	},
+	"main": "dist/source",
+	"types": "dist/source",
+	"files": [
+		"dist/source"
+	],
+	"dependencies": {
+		"exceljs": "^4.0.1",
+		"fs-jetpack": "^2.4.0"
+	},
+	"devDependencies": {
+		"@ava/typescript": "^1.1.1",
+		"@types/node": "^13.13.12",
+		"ava": "^3.9.0",
+		"del-cli": "^3.0.1",
+		"np": "https://github.com/pixelastic/np/tarball/c3ab2e3b053c7da0ce40a572ca1616273ac080f8",
+		"source-map-support": "^0.5.19",
+		"tempy": "^0.5.0",
+		"typescript": "~3.9.5",
+		"xo": "^0.32.0"
+	},
+	"ava": {
+		"verbose": true,
+		"timeout": "60m",
+		"require": [
+			"source-map-support/register"
+		],
+		"typescript": {
+			"rewritePaths": {
+				"source/": "dist/source/",
+				"test/": "dist/test/"
+			}
+		}
+	},
+	"xo": {
+		"ignore": [
+			"**/*.js"
+		],
+		"rules": {
+			"@typescript-eslint/prefer-readonly-parameter-types": "off",
+			"unicorn/prevent-abbreviations": "off",
+			"unicorn/no-for-loop": "off",
+			"ava/no-ignored-test-files": "off",
+			"linebreak-style": [
+				"error",
+				"unix"
+			],
+			"object-curly-spacing": [
+				"error",
+				"always"
+			]
+		}
+	}
+}
