@@ -56,7 +56,6 @@
 	},
 	"ava": {
 		"verbose": true,
-		"timeout": "60m",
 		"require": [
 			"source-map-support/register"
 		],
