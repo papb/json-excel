@@ -1,4 +1,4 @@
-# json-excel [![Build Status](https://travis-ci.com/papb/json-excel.svg?branch=master)](https://travis-ci.com/papb/json-excel)
+# @papb/json-excel [![Build Status](https://travis-ci.com/papb/json-excel.svg?branch=master)](https://travis-ci.com/papb/json-excel)
 
 > Create a pretty Excel table from JSON data with a very simple API
 
@@ -15,14 +15,14 @@
 ## Install
 
 ```
-$ npm install json-excel
+$ npm install @papb/json-excel
 ```
 
 
 ## Usage
 
 ```js
-const jsonToExcel = require('json-excel');
+const jsonToExcel = require('@papb/json-excel');
 
 (async () => {
 	await jsonToExcel([

@@ -1,5 +1,5 @@
 {
-	"name": "json-excel",
+	"name": "@papb/json-excel",
 	"version": "0.0.0",
 	"description": "Create a pretty Excel table from JSON data with a very simple API",
 	"license": "MIT",
@@ -53,6 +53,9 @@
 		"tempy": "^0.5.0",
 		"typescript": "~3.9.5",
 		"xo": "^0.32.0"
+	},
+	"publishConfig": {
+		"access": "public"
 	},
 	"ava": {
 		"verbose": true,
