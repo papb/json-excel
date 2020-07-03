@@ -12,6 +12,11 @@ const ALIGNMENT_STYLE: Partial<Excel.Alignment> = {
 	wrapText: true
 };
 
+const FONT_STYLE: Partial<Excel.Font> = {
+	name: 'Calibri',
+	size: 11
+};
+
 export async function jsonToExcel(jsonSheets: ExpandedJsonSheet[], path: string, options: ExpandedJsonToExcelOptions): Promise<void> {
 	if (jsonSheets.length === 0) {
 		throw new TypeError('Expected non-empty list of json sheets, got empty list');
@@ -59,8 +64,10 @@ export async function jsonToExcel(jsonSheets: ExpandedJsonSheet[], path: string,
 		for (let ri = 0; ri < rowCount; ri++) {
 			for (let ci = 0; ci < columnCount; ci++) {
 				assertValidCellContent(data[ri][ci], options.linefeedLimitChecking);
-				sheet.getCell(ri + 1, ci + 1).value = data[ri][ci];
-				sheet.getCell(ri + 1, ci + 1).alignment = ALIGNMENT_STYLE;
+				const cell = sheet.getCell(ri + 1, ci + 1);
+				cell.value = data[ri][ci];
+				cell.alignment = ALIGNMENT_STYLE;
+				cell.font = FONT_STYLE;
 			}
 		}
 
