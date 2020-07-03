@@ -44,6 +44,7 @@ export function expandJsonToExcelOptions(options: JsonToExcelOptions): ExpandedJ
 	return {
 		overwrite: options.overwrite ?? false,
 		normalizeLinefeeds: options.normalizeLinefeeds ?? true,
-		linefeedLimitChecking: options.linefeedLimitChecking ?? 'legacy'
+		linefeedLimitChecking: options.linefeedLimitChecking ?? 'legacy',
+		beforeSave: options.beforeSave ?? (() => {/* noop */})
 	};
 }

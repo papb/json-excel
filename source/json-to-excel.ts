@@ -84,5 +84,7 @@ export async function jsonToExcel(jsonSheets: ExpandedJsonSheet[], path: string,
 		}
 	}
 
+	await options.beforeSave(workbook);
+
 	await workbook.xlsx.writeFile(path);
 }

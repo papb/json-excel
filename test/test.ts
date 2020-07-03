@@ -46,20 +46,48 @@ test('getStringHeight works', t => {
 	t.is(getStringHeight('foobar\n_', Infinity), 2);
 });
 
+function getDummyData(): string[][] {
+	return [...new Array(300)].map(() => {
+		return [...new Array(100)].map(() => {
+			return `${Math.random()}`;
+		});
+	});
+}
+
 test('Generates with lots of data', async t => {
 	const sheet = {
 		sheetName: 'Hello World 123',
-		data: [...new Array(300)].map(() => {
-			return [...new Array(100)].map(() => {
-				return `${Math.random()}`;
-			});
-		}),
+		data: getDummyData(),
 		formatAsTable: true
 	};
 
 	const dir = jetpack.cwd(tempy.directory());
 
 	await jsonToExcel([sheet], dir.path('foo.xlsx'));
+
+	t.is(dir.exists('foo.xlsx'), 'file');
+
+	await dir.removeAsync('.');
+});
+
+test('`beforeSave` hook works', async t => {
+	const sheet = {
+		sheetName: 'Hello World 123',
+		data: getDummyData(),
+		formatAsTable: true
+	};
+
+	const dir = jetpack.cwd(tempy.directory());
+
+	await jsonToExcel([sheet], dir.path('foo.xlsx'), {
+		beforeSave(workbook) {
+			workbook.creator = 'Someone';
+			workbook.lastModifiedBy = 'Someone Else';
+			workbook.getWorksheet(1).getCell('C3').font = {
+				bold: true
+			};
+		}
+	});
 
 	t.is(dir.exists('foo.xlsx'), 'file');
 

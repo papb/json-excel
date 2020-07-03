@@ -1,6 +1,6 @@
 /* Ensure this file is consistent with ./defaults.ts and ./readme.md */
 
-import type { TableStyleProperties } from 'exceljs';
+import type { TableStyleProperties, Workbook } from 'exceljs';
 
 export type JsonSheet = {
 	/**
@@ -134,6 +134,33 @@ export type JsonToExcelOptions = {
 	@default 'legacy'
 	*/
 	linefeedLimitChecking?: 'legacy' | '>=2020' | 'off';
+
+	/**
+	A custom operation to be performed on the resulting ExcelJS workbook, right before generating the output file.
+
+	You can use this hook to make arbitrary custom changes in the generated workbook.
+
+	If you return a Promise from this hook, it will be awaited.
+
+	@example
+	```
+	await jsonToExcel(
+		sheets,
+		'example.xlsx',
+		{
+			overwrite: true,
+			beforeSave(workbook) {
+				workbook.creator = 'Someone';
+				workbook.lastModifiedBy = 'Someone Else';
+				workbook.getWorksheet(1).getCell('C3').font = {
+					bold: true
+				};
+			}
+		}
+	);
+	```
+	*/
+	beforeSave?: (workbook: Workbook) => void | Promise<void>;
 };
 
 export type ExpandedAutoFitCellSizesOptions = Required<AutoFitCellSizesOptions>;

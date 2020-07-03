@@ -117,6 +117,36 @@ This way:
 * If you choose `'>=2020'`: the maximum amount of linefeeds allowed will be `1637`. An error will be thrown if any cell has `1638` or more linefeeds.
 * If you choose `'off'`: this limit will not be checked. Recall that lines beyond the limit are not lost - they are simply not rendered by Excel, but copying and pasting into a text editor will retrieve all data, without loss.
 
+##### beforeSave
+
+Type: `(workbook: Workbook) => void | Promise<void>`\
+Default: do nothing
+
+A custom operation to be performed on the resulting [ExcelJS](https://github.com/exceljs/exceljs) workbook, right before generating the output file.
+
+You can use this hook to make arbitrary custom changes in the generated workbook.
+
+If you return a Promise from this hook, it will be awaited.
+
+Example:
+
+```js
+await jsonToExcel(
+	sheets,
+	'example.xlsx',
+	{
+		overwrite: true,
+		beforeSave(workbook) {
+			workbook.creator = 'Someone';
+			workbook.lastModifiedBy = 'Someone Else';
+			workbook.getWorksheet(1).getCell('C3').font = {
+				bold: true
+			};
+		}
+	}
+);
+```
+
 
 ## Tip: usage with `object[]` instead of `string[][]`
 
