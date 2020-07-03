@@ -42,6 +42,8 @@ export function expandJsonSheet(sheet: JsonSheet): ExpandedJsonSheet {
 
 export function expandJsonToExcelOptions(options: JsonToExcelOptions): ExpandedJsonToExcelOptions {
 	return {
-		overwrite: options.overwrite ?? false
+		overwrite: options.overwrite ?? false,
+		normalizeLinefeeds: options.normalizeLinefeeds ?? true,
+		linefeedLimitChecking: options.linefeedLimitChecking ?? 'legacy'
 	};
 }

@@ -112,6 +112,28 @@ export type JsonToExcelOptions = {
 	@default false
 	*/
 	overwrite?: boolean;
+
+	/**
+	Whether or not to automatically convert CRLF in strings given in sheets `data` to LF.
+
+	@default true
+	*/
+	normalizeLinefeeds?: boolean;
+
+	/**
+	Excel has a strange limitation on the amount of lines a cell can display. After a certain number of lines, Excel will stop rendering them, but they will still be there (if copied and pasted in a text editor, for example). This option specifies how `@papb/json-excel` will protect you from this.
+
+	The exact amount of lines before this display glitch happens depends on the Excel version. In the latest version (2020), lines from the 1639th onwards will not be rendered. Until 2017, this happens from the 255th line onwards (as reported [here](https://answers.microsoft.com/en-us/msoffice/forum/all/excel-does-not-display-the-line-feed-character/95201f69-670b-414f-91fc-3a3b1690ff96)). The exact limit for versions between 2017 and 2020 is not known.
+
+	This way:
+
+	- If you choose `'legacy'`: the maximum amount of linefeeds allowed will be `253`. An error will be thrown if any cell has `254` or more linefeeds.
+	- If you choose `'>=2020'`: the maximum amount of linefeeds allowed will be `1637`. An error will be thrown if any cell has `1638` or more linefeeds.
+	- If you choose `'off'`: this limit will not be checked. Recall that lines beyond the limit are not lost - they are simply not rendered by Excel, but copying and pasting into a text editor will retrieve all data, without loss.
+
+	@default 'legacy'
+	*/
+	linefeedLimitChecking?: 'legacy' | '>=2020' | 'off';
 };
 
 export type ExpandedAutoFitCellSizesOptions = Required<AutoFitCellSizesOptions>;

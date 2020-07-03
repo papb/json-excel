@@ -22,7 +22,8 @@ async function jsonToExcel(sheets: JsonSheet[], destinationPath: string, options
 
 	return _jsonToExcel(
 		sheets.map(sheet => expandJsonSheet(sheet)),
-		destinationPath
+		destinationPath,
+		expandedOptions
 	);
 }
 
