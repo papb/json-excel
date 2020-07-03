@@ -4,7 +4,7 @@ import assert = require('assert');
 const MAX_CHAR_VISUAL_WIDTH = 1.75;
 
 function getCharVisualWidth(char: string): number {
-	const specials = {
+	const specials: { [key: string]: number } = {
 		' ': 0.4,
 		f: 0.7,
 		m: 1.75
