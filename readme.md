@@ -89,7 +89,7 @@ Type: `object`
 
 ##### overwrite
 
-Type: `boolean`
+Type: `boolean`\
 Default: `false`
 
 Whether or not to overwrite the destination file if it already exists.
