@@ -1,6 +1,6 @@
 {
 	"name": "@papb/json-excel",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "Create a pretty Excel table from JSON data with a very simple API",
 	"license": "MIT",
 	"repository": "papb/json-excel",
