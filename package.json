@@ -30,22 +30,23 @@
 	"scripts": {
 		"build": "del-cli dist && tsc",
 		"release": "npm run build && np --no-2fa && npm pack && echo Please put the generated .tgz as a release asset on GitHub",
-		"test": "npm run build && xo && ava",
-		"lint": "tsc --noEmit && xo",
-		"ava": "npm run build && ava"
+		"test": "npm run build && ava",
+		"lint": "tsc --noEmit && xo"
 	},
 	"main": "dist/source",
 	"types": "dist/source",
 	"files": [
-		"dist/source"
+		"dist/source",
+		"!*.map",
+		"!*.test.*"
 	],
 	"dependencies": {
 		"exceljs": "^4.0.1",
-		"fs-jetpack": "^2.4.0"
+		"fs-jetpack": "^3.1.0"
 	},
 	"devDependencies": {
 		"@ava/typescript": "^1.1.1",
-		"@types/node": "^13.13.12",
+		"@types/node": "^10.17.28",
 		"ava": "^3.9.0",
 		"del-cli": "^3.0.1",
 		"np": "https://github.com/pixelastic/np/tarball/c3ab2e3b053c7da0ce40a572ca1616273ac080f8",
