@@ -1,4 +1,4 @@
-# @papb/json-excel [![Build Status](https://travis-ci.com/papb/json-excel.svg?branch=master)](https://travis-ci.com/papb/json-excel)
+# @papb/json-excel ![Build Status](https://github.com/papb/json-excel/workflows/CI/badge.svg)
 
 > Create a pretty Excel table from JSON data with a very simple API
 
