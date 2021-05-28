@@ -36,7 +36,7 @@
 		"build:browser:modern": "microbundle -i source/index.browser.ts -o dist/browser/json-excel.min.js -f modern --external fs-jetpack --strict",
 		"build:browser": "npm run build:browser:iife && npm run build:browser:modern",
 		"build": "del-cli dist && npm run build:node && npm run build:browser",
-		"release": "npm run build && np --no-2fa --no-cleanup",
+		"release": "npm run build && np --no-yarn --no-2fa --no-cleanup",
 		"test": "npm run build && ava && npm run example",
 		"example": " node example/generate-example.js",
 		"start": "npm run build:node && npm run example",
