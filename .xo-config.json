@@ -1,0 +1,22 @@
+{
+	"rules": {
+		"curly": "off",
+		"linebreak-style": ["error", "unix"],
+		"object-curly-spacing": ["error", "always"],
+		"unicorn/custom-error-definition": "error",
+		"unicorn/prevent-abbreviations": "off",
+		"unicorn/no-for-loop": "off",
+		"unicorn/prefer-number-properties": "off",
+		"unicorn/no-new-array": "off",
+		"ava/no-skip-test": "warn"
+	},
+	"overrides": [
+		{
+			"files": "**/*.ts",
+			"rules": {
+				"@typescript-eslint/no-require-imports": "off",
+				"@typescript-eslint/object-curly-spacing": ["error", "always"]
+			}
+		}
+	]
+}

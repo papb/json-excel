@@ -47,7 +47,9 @@ test('getStringHeight works', t => {
 });
 
 function getDummyData(): string[][] {
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	return [...new Array(300)].map(() => {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		return [...new Array(100)].map(() => {
 			return `${Math.random()}`;
 		});

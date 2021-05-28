@@ -7,7 +7,7 @@ export function assertNonemptyStringSquareMatrix(arg: any): asserts arg is strin
 		throw new TypeError(`Expected string[][], got ${typeof arg}`);
 	}
 
-	if (arg.length === 0 || arg[0].length === 0) {
+	if (arg.length === 0) {
 		throw new TypeError('Expected nonempty string[][], got empty array');
 	}
 
@@ -23,7 +23,7 @@ export function assertNonemptyStringSquareMatrix(arg: any): asserts arg is strin
 		}
 	}
 
-	const typedArg: string[][] = arg;
+	const typedArg = arg as string[][];
 
 	const columnCount = typedArg[0].length;
 

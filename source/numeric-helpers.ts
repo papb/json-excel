@@ -13,7 +13,7 @@ export function getMax(numbers: number[]): number {
 }
 
 export function getSum(numbers: number[]): number {
-	// eslint-disable-next-line unicorn/no-reduce
+	// eslint-disable-next-line unicorn/no-array-reduce
 	return numbers.reduce((a, b) => a + b, 0);
 }
 

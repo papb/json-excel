@@ -3,7 +3,7 @@ import { getMax } from './numeric-helpers';
 // Calculations in this file assume 'Calibri 11'
 
 /* eslint-disable quote-props */
-const CHAR_WIDTHS_IN_PX: { [key: string]: number } = {
+const CHAR_WIDTHS_IN_PX: Record<string, number> = {
 	// 'a': 1, // 1 is the default and can be omitted
 	'b': 8 / 7,
 	'c': 6 / 7,
