@@ -22,7 +22,10 @@
 		"workbook",
 		"tabular",
 		"data",
-		"xls"
+		"xls",
+		"node",
+		"nodejs",
+		"browser"
 	],
 	"engines": {
 		"node": ">=10"
