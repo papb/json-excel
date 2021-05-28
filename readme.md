@@ -24,7 +24,7 @@ $ npm install @papb/json-excel
 ### Browsers
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@papb/json-excel/dist/browser/json-excel.min.js">
+<script src="https://cdn.jsdelivr.net/npm/@papb/json-excel@2.0.0/dist/browser/json-excel.min.js">
 ```
 
 ## Importing
