@@ -6,7 +6,9 @@ import type {
 	AutoFitCellSizesOptions,
 	ExpandedAutoFitCellSizesOptions,
 	JsonToExcelOptions,
-	ExpandedJsonToExcelOptions
+	ExpandedJsonToExcelOptions,
+	ExportJsonToExcelOptions,
+	ExpandedExportJsonToExcelOptions
 } from './types';
 
 export function expandAutoFitCellSizesOptions(options: AutoFitCellSizesOptions): ExpandedAutoFitCellSizesOptions {
@@ -40,11 +42,17 @@ export function expandJsonSheet(sheet: JsonSheet): ExpandedJsonSheet {
 	};
 }
 
-export function expandJsonToExcelOptions(options: JsonToExcelOptions): ExpandedJsonToExcelOptions {
+export function expandJsonToExcelOptions(options?: JsonToExcelOptions): ExpandedJsonToExcelOptions {
 	return {
-		overwrite: options.overwrite ?? false,
-		normalizeLinefeeds: options.normalizeLinefeeds ?? true,
-		linefeedLimitChecking: options.linefeedLimitChecking ?? 'legacy',
-		beforeSave: options.beforeSave ?? (() => {/* noop */})
+		normalizeLinefeeds: options?.normalizeLinefeeds ?? true,
+		linefeedLimitChecking: options?.linefeedLimitChecking ?? 'legacy'
+	};
+}
+
+export function expandExportJsonToExcelOptions(options?: ExportJsonToExcelOptions): ExpandedExportJsonToExcelOptions {
+	return {
+		...expandJsonToExcelOptions(options),
+		overwrite: options?.overwrite ?? false,
+		beforeSave: options?.beforeSave ?? (() => { /* noop */ })
 	};
 }

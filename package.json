@@ -28,12 +28,19 @@
 		"node": ">=10"
 	},
 	"scripts": {
-		"build": "del-cli dist && tsc",
+		"build:node": "tsc",
+		"build:browser:iife": "microbundle -i source/index.browser.ts -o dist/browser/json-excel.min.js -f iife --name jsonToExcel --external fs-jetpack --strict",
+		"build:browser:modern": "microbundle -i source/index.browser.ts -o dist/browser/json-excel.min.js -f modern --external fs-jetpack --strict",
+		"build:browser": "npm run build:browser:iife && npm run build:browser:modern",
+		"build": "del-cli dist && npm run build:node && npm run build:browser",
 		"release": "npm run build && np --no-2fa --no-cleanup",
-		"test": "npm run build && ava",
+		"test": "npm run build && ava && npm run example",
+		"example": " node example/generate-example.js",
+		"start": "npm run build:node && npm run example",
 		"lint": "tsc --noEmit && xo"
 	},
 	"main": "dist/source",
+	"browser": "dist/browser",
 	"types": "dist/source",
 	"files": [
 		"dist/source",
@@ -46,10 +53,14 @@
 	},
 	"devDependencies": {
 		"@ava/typescript": "^1.1.1",
+		"@types/file-saver": "^2.0.2",
 		"@types/node": "^10.17.28",
 		"ava": "^3.9.0",
 		"del-cli": "^3.0.1",
-		"np": "https://github.com/pixelastic/np/tarball/c3ab2e3b053c7da0ce40a572ca1616273ac080f8",
+		"file-saver": "^2.0.5",
+		"log-process-errors": "^6.3.0",
+		"microbundle": "^0.13.1",
+		"np": "^7.5.0",
 		"source-map-support": "^0.5.19",
 		"tempy": "^0.5.0",
 		"typescript": "~3.9.5",

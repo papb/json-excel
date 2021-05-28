@@ -1,5 +1,4 @@
 import { getMax } from './numeric-helpers';
-import assert = require('assert');
 
 // Calculations in this file assume 'Calibri 11'
 
@@ -108,7 +107,7 @@ function roundCents(number: number): number {
 }
 
 export function getLineVisualWidth(line: string): number {
-	assert.strictEqual(/\r?\n/.test(line), false, 'Line cannot include CR/LF');
+	if (/\r?\n/.test(line)) throw new Error('Line cannot include CR/LF');
 
 	let width = 0;
 
@@ -126,7 +125,7 @@ export function getStringVisualWidth(string: string): number {
 }
 
 export function predictAmountOfLineWraps(line: string, maxVisualWidth: number): number {
-	assert.strictEqual(/\r?\n/.test(line), false, 'Line cannot include CR/LF');
+	if (/\r?\n/.test(line)) throw new Error('Line cannot include CR/LF');
 
 	// Heuristic to return 0 faster in several cases
 	if (line.length * MAX_CHAR_VISUAL_WIDTH <= maxVisualWidth) {

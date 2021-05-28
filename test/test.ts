@@ -1,5 +1,5 @@
 import test from 'ava';
-import jsonToExcel = require('../source');
+import { exportJsonToExcel } from '../source';
 import { getStringHeight } from '../source/auto-sizes';
 import { getMax, getSum } from '../source/numeric-helpers';
 import { predictAmountOfLineWraps } from '../source/visual-string-width';
@@ -63,7 +63,7 @@ test('Generates with lots of data', async t => {
 
 	const dir = jetpack.cwd(tempy.directory());
 
-	await jsonToExcel([sheet], dir.path('foo.xlsx'));
+	await exportJsonToExcel(dir.path('foo.xlsx'), [sheet]);
 
 	t.is(dir.exists('foo.xlsx'), 'file');
 
@@ -79,7 +79,7 @@ test('`beforeSave` hook works', async t => {
 
 	const dir = jetpack.cwd(tempy.directory());
 
-	await jsonToExcel([sheet], dir.path('foo.xlsx'), {
+	await exportJsonToExcel(dir.path('foo.xlsx'), [sheet], {
 		beforeSave(workbook) {
 			workbook.creator = 'Someone';
 			workbook.lastModifiedBy = 'Someone Else';
@@ -106,10 +106,10 @@ test('Refuses to overwrite unless option is set', async t => {
 
 	await jetpack.writeAsync(filePath, dummyContent);
 
-	await t.throwsAsync(async () => jsonToExcel([sheet], filePath));
+	await t.throwsAsync(async () => exportJsonToExcel(filePath, [sheet]));
 	t.is(await jetpack.readAsync(filePath), dummyContent);
 
-	await t.notThrowsAsync(async () => jsonToExcel([sheet], filePath, { overwrite: true }));
+	await t.notThrowsAsync(async () => exportJsonToExcel(filePath, [sheet], { overwrite: true }));
 
 	await dir.removeAsync('.');
 });

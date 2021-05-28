@@ -1,6 +1,6 @@
-# @papb/json-excel ![Build Status](https://github.com/papb/json-excel/workflows/CI/badge.svg)
+# @papb/json-excel [![Build Status](https://github.com/papb/json-excel/workflows/CI/badge.svg)](https://github.com/papb/json-excel/actions/workflows/ci.yml)
 
-> Create a pretty Excel table from JSON data with a very simple API
+> Create a pretty Excel table from JSON data with a very simple API. Supports Node.js and browsers.
 
 
 ## Highlights
@@ -10,22 +10,44 @@
 * Checks for [Excel limitations](https://support.microsoft.com/en-ie/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3) automatically (such as maximum cell length) and throws helpful errors if any limit is exceeded
 * Get the *Format as Table* Excel styling, with filterable headers, by simply enabling an option
 * Written in TypeScript (you get autocomplete suggestions in your IDE!)
+* Works in Node.js and browsers
 
 
 ## Install
+
+### Node.js
 
 ```
 $ npm install @papb/json-excel
 ```
 
+### Browsers
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@papb/json-excel/dist/browser/json-excel.min.js">
+```
+
+## Importing
+
+### Node.js
+
+```js
+import { jsonToExcel, exportJsonToExcel } from '@papb/json-excel';        // ESM / TypeScript syntax
+const { jsonToExcel, exportJsonToExcel } = require('@papb/json-excel');   // CommonJS syntax
+```
+
+### Browsers
+
+```js
+const { jsonToExcel, exportJsonToExcel } = window.jsonToExcel;
+```
 
 ## Usage
 
 ```js
-const jsonToExcel = require('@papb/json-excel');
-
-(async () => {
-	await jsonToExcel([
+await exportJsonToExcel(
+	'example.xlsx',
+	[
 		{
 			sheetName: 'Hello World',
 			data: [
@@ -40,8 +62,11 @@ const jsonToExcel = require('@papb/json-excel');
 			],
 			formatAsTable: true
 		}
-	], 'example.xlsx', { overwrite: true });
-})();
+	],
+	{
+		overwrite: true // Only for Node.js usage
+	}
+);
 ```
 
 Output is an excel file called `example.xlsx` with a single sheet (called `Hello World`) and the following content:
@@ -53,9 +78,11 @@ Output is an excel file called `example.xlsx` with a single sheet (called `Hello
 
 <!-- Ensure this part is consistent with ./types.ts and ./defaults.ts -->
 
-### jsonToExcel(jsonSheets, destinationPath, options?)
+### jsonToExcel(destinationNameOrPath, jsonSheets, options?)
 
-Async function that creates a xlsx file with the provided data.
+_Note:_ you probably want to use the `exportJsonToExcel` function directly instead.
+
+Async function that creates an [ExcelJS.Workbook](https://github.com/exceljs/exceljs) object from the provided data.
 
 #### jsonSheets
 
@@ -77,22 +104,9 @@ An array of objects, each representing one sheet, with:
 	* `horizontalPadding` (`number`, optional, default `3`): Extra horizontal padding (in *"excel points"*) for every column. This amount will be added to the auto-calculated minimal width in which the contents fit.
 	* `verticalPadding` (`number`, optional, default `2`): Extra vertical padding (in *"excel points"*) for every cell. This amount will be added to the auto-calculated minimal height in which the contents fit.
 
-#### destinationPath
-
-Type: `string`
-
-The path (absolute, or relative to `process.cwd()`) in which the new xlsx file should be created. In windows, both `/` and `\` are accepted as path separators.
-
 #### options
 
 Type: `object`
-
-##### overwrite
-
-Type: `boolean`\
-Default: `false`
-
-Whether or not to overwrite the destination file if it already exists.
 
 ##### normalizeLinefeeds
 
@@ -117,9 +131,41 @@ This way:
 * If you choose `'>=2020'`: the maximum amount of linefeeds allowed will be `1637`. An error will be thrown if any cell has `1638` or more linefeeds.
 * If you choose `'off'`: this limit will not be checked. Recall that lines beyond the limit are not lost - they are simply not rendered by Excel, but copying and pasting into a text editor will retrieve all data, without loss.
 
+### exportJsonToExcel(destinationNameOrPath, jsonSheets, options?)
+
+Async function that creates a xlsx file from the provided data.
+
+* In Node.js: resolves when the xlsx file *finishes* being written to the filesystem.
+
+* In browswer: resolves when the xlsx file *begins* to be downloaded. This is due to an issue with [FileSaver.js](https://github.com/eligrey/FileSaver.js/issues/699).
+
+#### destinationNameOrPath
+
+Type: `string`
+
+* In Node.js: the path (absolute, or relative to `process.cwd()`) in which the new xlsx file should be created. In windows, both `/` and `\` are accepted as path separators.
+
+* In browsers: the name of the file to be generated and downloaded to the client.
+
+#### jsonSheets
+
+Same as in `jsonToExcel` above.
+
+#### options
+
+Type: `object`
+
+##### normalizeLinefeeds
+
+Same as in `jsonToExcel` above.
+
+##### linefeedLimitChecking
+
+Same as in `jsonToExcel` above.
+
 ##### beforeSave
 
-Type: `(workbook: Workbook) => void | Promise<void>`\
+Type: `(workbook: ExcelJS.Workbook) => void | Promise<void>`\
 Default: do nothing
 
 A custom operation to be performed on the resulting [ExcelJS](https://github.com/exceljs/exceljs) workbook, right before generating the output file.
@@ -147,6 +193,17 @@ await jsonToExcel(
 );
 ```
 
+See the [ExcelJS](https://github.com/exceljs/exceljs) documentation for details on what you can do with the workbook.
+
+##### overwrite
+
+Type: `boolean`\
+Default: `false`
+
+Whether or not to overwrite the destination file if it already exists.
+
+This option is for Node.js only, and is ignored in browsers.
+
 
 ## Tip: usage with `object[]` instead of `string[][]`
 
@@ -160,20 +217,25 @@ const data = [
 ];
 ```
 
-...you can use `jsonToExcel` by simply converting that to a `string[][]` first, with a simple loop. Example:
+...you can use `jsonToExcel` by simply converting that to a `string[][]` first, with a simple loop (or array `.map` call). Example:
 
 ```js
 const headers = ['Name', 'Size'];
 const dataAs2DArray = data.map(fruit => [fruit.name, fruit.size]);
 
-jsonToExcel([{
-	sheetName: 'Fruits',
-	data: [
-		headers,
-		...dataAs2DArray
-	],
-	formatAsTable: true
-}], 'fruits.xlsx');
+await exportJsonToExcel(
+	'fruits.xlsx',
+	[
+		{
+			sheetName: 'Fruits',
+			data: [
+				headers,
+				...dataAs2DArray
+			],
+			formatAsTable: true
+		}
+	]
+);
 ```
 
 

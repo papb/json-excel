@@ -1,10 +1,11 @@
-import Excel = require('exceljs');
-import type { ExpandedJsonSheet, ExpandedJsonToExcelOptions } from './types';
+import Excel from 'exceljs';
+import type { JsonSheet, JsonToExcelOptions, ExpandedJsonSheet, ExpandedJsonToExcelOptions } from './types';
 import { assertDimensionsAcceptable } from './assert-dimensions-acceptable';
 import { assertValidCellContent } from './assert-valid-cell-content';
 import { assertValidSheetNames } from './assert-valid-sheet-names';
 import { assertNonemptyStringSquareMatrix } from './check-square-matrix';
 import { getAutoFitCellSizes } from './auto-sizes';
+import { expandJsonSheet, expandJsonToExcelOptions } from './defaults';
 
 const ALIGNMENT_STYLE: Partial<Excel.Alignment> = {
 	vertical: 'middle',
@@ -17,7 +18,7 @@ const FONT_STYLE: Partial<Excel.Font> = {
 	size: 11
 };
 
-export async function jsonToExcel(jsonSheets: ExpandedJsonSheet[], path: string, options: ExpandedJsonToExcelOptions): Promise<void> {
+function _jsonToExcel(jsonSheets: ExpandedJsonSheet[], options: ExpandedJsonToExcelOptions): Excel.Workbook {
 	if (jsonSheets.length === 0) {
 		throw new TypeError('Expected non-empty list of json sheets, got empty list');
 	}
@@ -84,7 +85,18 @@ export async function jsonToExcel(jsonSheets: ExpandedJsonSheet[], path: string,
 		}
 	}
 
-	await options.beforeSave(workbook);
+	return workbook;
+}
 
-	await workbook.xlsx.writeFile(path);
+/**
+ * Convert a list of JSON sheets into an ExcelJS Workbook.
+ * @param sheets Array of JsonSheets to convert
+ * @param options Options
+ * @returns ExcelJS.Workbook
+ */
+export function jsonToExcel(sheets: JsonSheet[], options?: JsonToExcelOptions): Excel.Workbook {
+	return _jsonToExcel(
+		sheets.map(sheet => expandJsonSheet(sheet)),
+		expandJsonToExcelOptions(options ?? {})
+	);
 }

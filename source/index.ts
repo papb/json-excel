@@ -1,30 +1,16 @@
-import jetpack = require('fs-jetpack');
-import type { JsonSheet, JsonToExcelOptions } from './types';
-import { jsonToExcel as _jsonToExcel } from './json-to-excel';
-import { expandJsonSheet, expandJsonToExcelOptions } from './defaults';
+export type { JsonSheet, JsonToExcelOptions, ExportJsonToExcelOptions } from './types';
+export { jsonToExcel } from './json-to-excel';
 
-async function jsonToExcel(sheets: JsonSheet[], destinationPath: string, options?: JsonToExcelOptions): Promise<void> {
-	const expandedOptions = expandJsonToExcelOptions(options ?? {});
+import type { JsonSheet, ExportJsonToExcelOptions } from './types';
+import { exportJsonToExcelNodejs } from './export-json-to-excel-nodejs';
 
-	const existence = jetpack.exists(destinationPath);
-
-	if (existence === 'dir') {
-		throw new Error(`Destination path is a directory: "${destinationPath}"`);
-	}
-
-	if (existence === 'other') {
-		throw new Error(`Destination path already exists and is not a file: "${destinationPath}"`);
-	}
-
-	if (existence === 'file' && !expandedOptions.overwrite) {
-		throw new Error(`Destination file already exists, refusing to overwrite: "${destinationPath}"`);
-	}
-
-	return _jsonToExcel(
-		sheets.map(sheet => expandJsonSheet(sheet)),
-		destinationPath,
-		expandedOptions
-	);
+/**
+ * Export a list of JSON sheets as a XLSX file. Works in Node.js and browsers.
+ *
+ * @param destinationNameOrPath In Node.js, the path to the output file (example: `'path/to/generated/file.xlsx'`). In browsers, the name of the file to be downloaded (example: `'generatedFile.xlsx'`).
+ * @param sheets List of JSON sheets
+ * @param options Options
+ */
+export async function exportJsonToExcel(destinationNameOrPath: string, sheets: JsonSheet[], options?: ExportJsonToExcelOptions): Promise<void> {
+	await exportJsonToExcelNodejs(destinationNameOrPath, sheets, options);
 }
-
-export = jsonToExcel;

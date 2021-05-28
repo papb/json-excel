@@ -107,13 +107,6 @@ export type AutoFitCellSizesOptions = {
 
 export type JsonToExcelOptions = {
 	/**
-	Whether or not to allow overwriting the destination xlsx file.
-
-	@default false
-	*/
-	overwrite?: boolean;
-
-	/**
 	Whether or not to automatically convert CRLF in strings given in sheets `data` to LF.
 
 	@default true
@@ -134,6 +127,15 @@ export type JsonToExcelOptions = {
 	@default 'legacy'
 	*/
 	linefeedLimitChecking?: 'legacy' | '>=2020' | 'off';
+};
+
+export type ExportJsonToExcelOptions = JsonToExcelOptions & {
+	/**
+	Whether or not to allow overwriting the destination xlsx file. This option is ignored in browsers (only used in Node.js)
+
+	@default false
+	*/
+	overwrite?: boolean;
 
 	/**
 	A custom operation to be performed on the resulting ExcelJS workbook, right before generating the output file.
@@ -170,3 +172,4 @@ export type ExpandedJsonSheet = Required<JsonSheet> & {
 };
 
 export type ExpandedJsonToExcelOptions = Required<JsonToExcelOptions>;
+export type ExpandedExportJsonToExcelOptions = Required<ExportJsonToExcelOptions>;

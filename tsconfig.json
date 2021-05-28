@@ -8,6 +8,7 @@
 		"target": "es2018",
 		"module": "commonjs",
 		"moduleResolution": "node",
+		"esModuleInterop": true,
 		"strict": true,
 		"resolveJsonModule": true,
 		"declaration": true,
