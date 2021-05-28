@@ -23,23 +23,46 @@ $ npm install @papb/json-excel
 
 ### Browsers
 
+#### Standard build
+
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@papb/json-excel@2.0.0/dist/browser/json-excel.min.js">
+<script src="https://cdn.jsdelivr.net/npm/@papb/json-excel@2.0.1/dist/browser/json-excel.min.js" integrity="sha512-rR3G8juQnBDl4yDFhIu68uNUFzItiyJt6KPRE2L+WWlIW0acUwU4TaTm3sYqZqjTu/EAV9C4gxVnHZeLhP1iTg==" crossorigin="anonymous"></script>
 ```
+
+#### Modern build (ESM)
+
+<script src="https://cdn.jsdelivr.net/npm/@papb/json-excel@2.0.1/dist/browser/json-excel.min.modern.js" type="module" integrity="sha512-KN1VrgeqVNeOLd31soYodY38Na/Yw7WwQ3M73sFEGP20fd2vCw0BiPq4yfQTmYABoLFLeSl/hA0z/V0Zm2M/3A==" crossorigin="anonymous"></script>
+
+Note: you could omit this `<script>` declaration for ESM and just import the URL directly, [but you would miss the security given by Sub-Resource Integrity](https://stackoverflow.com/a/59853202/4135063).
 
 ## Importing
 
 ### Node.js
 
+#### CommonJS syntax
+
 ```js
-import { jsonToExcel, exportJsonToExcel } from '@papb/json-excel';        // ESM / TypeScript syntax
-const { jsonToExcel, exportJsonToExcel } = require('@papb/json-excel');   // CommonJS syntax
+const { jsonToExcel, exportJsonToExcel } = require('@papb/json-excel');
+```
+
+#### ESM / TypeScript syntax
+
+```js
+import { jsonToExcel, exportJsonToExcel } from '@papb/json-excel';
 ```
 
 ### Browsers
 
+#### Standard build
+
 ```js
 const { jsonToExcel, exportJsonToExcel } = window.jsonToExcel;
+```
+
+#### Modern build (ESM)
+
+```js
+import { jsonToExcel, exportJsonToExcel } from 'https://cdn.jsdelivr.net/npm/@papb/json-excel@2.0.1/dist/browser/json-excel.min.modern.js';
 ```
 
 ## Usage
