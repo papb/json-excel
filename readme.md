@@ -31,7 +31,9 @@ $ npm install @papb/json-excel
 
 #### Modern build (ESM)
 
+```html
 <script src="https://cdn.jsdelivr.net/npm/@papb/json-excel@2.0.1/dist/browser/json-excel.min.modern.js" type="module" integrity="sha512-KN1VrgeqVNeOLd31soYodY38Na/Yw7WwQ3M73sFEGP20fd2vCw0BiPq4yfQTmYABoLFLeSl/hA0z/V0Zm2M/3A==" crossorigin="anonymous"></script>
+```
 
 Note: you could omit this `<script>` declaration for ESM and just import the URL directly, [but you would miss the security given by Sub-Resource Integrity](https://stackoverflow.com/a/59853202/4135063).
 
